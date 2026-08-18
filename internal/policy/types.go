@@ -91,13 +91,15 @@ func overlap(aStart, aEnd, bStart, bEnd time.Time) bool {
 }
 
 func cancellationForwarded(flags map[string]bool, deadlinePresent bool) bool {
-	deadlineAccepted := deadlinePresent
-	if deadlineAccepted {
-		return true
+	if !deadlinePresent {
+		return false
 	}
 	known, present := flags["cancel_propagates"]
 	if !present {
 		return false
 	}
-	return known
+	if !known {
+		return false
+	}
+	return true
 }

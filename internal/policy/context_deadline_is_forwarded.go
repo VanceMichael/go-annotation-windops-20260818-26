@@ -18,7 +18,7 @@ func EvaluateContextDeadlineIsForwarded(ctx Context) (Result, error) {
 	if ctx.Metadata["request_id"] == "" {
 		return deny("request_context_missing", "downstream context lost request metadata"), nil
 	}
-	if !cancellationForwarded(ctx.Flags, true) {
+	if !cancellationForwarded(ctx.Flags, !ctx.Deadline.IsZero()) {
 		return deny("cancel_not_forwarded", "downstream cancellation is detached"), nil
 	}
 	result := allow("deadline and cancellation are forwarded")
