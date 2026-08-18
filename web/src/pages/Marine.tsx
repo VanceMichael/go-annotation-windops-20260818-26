@@ -1,0 +1,4 @@
+import {useQuery} from '@tanstack/react-query';import {api} from '../api/client';import {EntityTable} from '../components/EntityTable';import {EmptyState,ErrorState,Loading} from '../components/State';import {WorkspaceHeader} from '../components/WorkspaceHeader';
+type Row={id:string;status:string;[key:string]:unknown};
+export default function Marine(){const query=useQuery({queryKey:['permits'],queryFn:({signal})=>api.entities<Row>('permits',signal)});return <section><WorkspaceHeader title="海事调度" subtitle="核对船舶、作业许可与离港编组" onRefresh={()=>void query.refetch()} busy={query.isFetching}/>{query.isLoading?<Loading/>:query.isError?<ErrorState error={query.error} retry={()=>void query.refetch()}/>:query.data?.items.length?<EntityTable rows={query.data.items} details={["campaign_id","vessel_id","window_id","requested_by","expires_at"]}/>:<EmptyState/>}</section>}
+

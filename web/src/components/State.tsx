@@ -1,0 +1,3 @@
+import {Alert,Button,Empty,Result,Skeleton} from 'antd';import {ReloadOutlined} from '@ant-design/icons';import type {ReactNode} from 'react';
+export function Loading(){return <Skeleton active paragraph={{rows:8}}/>}export function EmptyState({label='暂无数据'}:{label?:string}){return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={label}/>}export function ErrorState({error,retry}:{error:unknown;retry:()=>void}){const message=error instanceof Error?error.message:'请求失败';return <Result status="error" title="无法载入" subTitle={message} extra={<Button icon={<ReloadOutlined/>} onClick={retry}>重试</Button>}/>}export function Notice({children}:{children:ReactNode}){return <Alert type="info" showIcon message={children}/>} 
+

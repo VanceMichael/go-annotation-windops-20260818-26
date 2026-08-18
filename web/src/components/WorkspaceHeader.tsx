@@ -1,0 +1,3 @@
+import {Badge,Button,Flex,Typography} from 'antd';import {CloudSyncOutlined,ReloadOutlined} from '@ant-design/icons';
+export function WorkspaceHeader({title,subtitle,onRefresh,busy=false}:{title:string;subtitle:string;onRefresh?:()=>void;busy?:boolean}){return <Flex className="workspace-header" justify="space-between" align="center" gap={16}><div><Flex align="center" gap={8}><Typography.Title level={2}>{title}</Typography.Title><Badge status="processing" text="实时"/></Flex><Typography.Text type="secondary">{subtitle}</Typography.Text></div>{onRefresh&&<Button icon={<ReloadOutlined/>} loading={busy} onClick={onRefresh}>刷新</Button>}<CloudSyncOutlined className="watermark-icon"/></Flex>}
+

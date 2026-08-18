@@ -1,0 +1,4 @@
+import {useQuery} from '@tanstack/react-query';import {api} from '../api/client';import {EntityTable} from '../components/EntityTable';import {EmptyState,ErrorState,Loading} from '../components/State';import {WorkspaceHeader} from '../components/WorkspaceHeader';
+type Row={id:string;status:string;[key:string]:unknown};
+export default function Planning(){const query=useQuery({queryKey:['campaigns'],queryFn:({signal})=>api.entities<Row>('campaigns',signal)});return <section><WorkspaceHeader title="计划编排" subtitle="确认气象窗口、维护批次与机位容量" onRefresh={()=>void query.refetch()} busy={query.isFetching}/>{query.isLoading?<Loading/>:query.isError?<ErrorState error={query.error} retry={()=>void query.refetch()}/>:query.data?.items.length?<EntityTable rows={query.data.items} details={["name","farm_id","window_id","priority","budget_cents"]}/>:<EmptyState/>}</section>}
+

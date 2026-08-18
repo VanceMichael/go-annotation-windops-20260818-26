@@ -1,0 +1,4 @@
+import {useQuery} from '@tanstack/react-query';import {api} from '../api/client';import {EntityTable} from '../components/EntityTable';import {EmptyState,ErrorState,Loading} from '../components/State';import {WorkspaceHeader} from '../components/WorkspaceHeader';
+type Row={id:string;status:string;[key:string]:unknown};
+export default function Execution(){const query=useQuery({queryKey:['work-orders'],queryFn:({signal})=>api.entities<Row>('work-orders',signal)});return <section><WorkspaceHeader title="现场执行" subtitle="跟踪机组作业、证据与闭环条件" onRefresh={()=>void query.refetch()} busy={query.isFetching}/>{query.isLoading?<Loading/>:query.isError?<ErrorState error={query.error} retry={()=>void query.refetch()}/>:query.data?.items.length?<EntityTable rows={query.data.items} details={["campaign_id","turbine_id","permit_id","assignee_id","summary"]}/>:<EmptyState/>}</section>}
+
